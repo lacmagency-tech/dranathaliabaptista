@@ -812,7 +812,14 @@ class Component extends DCLogic {
       var n = window.innerWidth < 760;
       if (n !== self.state.narrow) self.setState({ narrow: n });
     };
+    this.revealVisible = function () {
+      var vh = window.innerHeight || 800;
+      var els = document.querySelectorAll('.io:not(.in)');
+      for (var q = 0; q < els.length; q++) { var rc = els[q].getBoundingClientRect(); if (rc.top < vh * 0.94 && rc.bottom > 0) els[q].classList.add('in'); }
+    };
+    setInterval(function () { self.revealVisible(); }, 700);
     this.onScroll = function (e) {
+      self.revealVisible();
       var rt = e && e.target;
       if (rt && rt.id === 'bibrail') {
         var kids = rt.querySelectorAll('button[role=listitem]'), rr = rt.getBoundingClientRect(), mid = rr.left + rr.width / 2, best = 0, bd = 1e9;
